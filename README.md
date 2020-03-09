@@ -1,7 +1,9 @@
 inmotion.ultrastack_mysql
 =========
 
-This role installs and configures MySQL
+Modular Ansible Role for deploying and configuring MySQL/MariaDB
+
+[![Build Status](https://travis-ci.org/inmotionhosting/inmotion.mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/inmotion.mysql)
 
 Requirements
 ------------
