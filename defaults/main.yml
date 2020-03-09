@@ -1,0 +1,43 @@
+---
+# defaults file for inmotion.ultrastack_mysql
+
+mysql_daemon: mariadb
+mysql_supports_innodb_large_prefix: true
+
+mysql_root_home: /root
+mysql_root_password_update: false
+mysql_root_username: root
+
+mysql_config_file: /etc/my.cnf
+mysql_config_include_dir: /etc/my.cnf.d
+
+mysql_pid_file: /var/run/mariadb/mariadb.pid
+
+mysql_socket: true
+mysql_socket_path: /var/lib/mysql/mysql.sock
+
+#
+# Logging
+#
+
+mysql_log_dir: /var/log/
+mysql_log_error: "{{ mysql_log_dir }}/mariadb/mariadb.log"
+mysql_log_file_group: mysql
+mysql_slow_query_log_enabled: true
+mysql_slow_query_log_file: "{{ mysql_log_dir }}/mysql-slow.log"
+mysql_syslog_tag: mariadb
+
+#
+# Packages
+#
+
+mysql_packages:
+  - mariadb-server
+  - MySQL-python
+  - perl-DBD-MySQL
+
+#
+# Meta
+#
+
+password_generate: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"

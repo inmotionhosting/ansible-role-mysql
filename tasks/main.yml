@@ -1,0 +1,132 @@
+---
+# tasks file for inmotion.ultrastack_mysql
+
+- name: (MySQL) Include variables and set facts
+  include: facts.yml
+
+- name: (Ubuntu) Update APT cache
+  apt:
+    force_apt_get: true
+    update_cache: true
+    cache_valid_time: "3600"
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: (MySQL) Install MySQL packages.
+  package:
+    name: "{{ mysql_packages }}"
+    state: present
+  register: mysql_install_packages
+
+- name: (RedHat) Ensure MySQL will use a unix socket
+  template:
+    src: etc/my.cnf.d/mysqld_socket.cnf.j2
+    dest: "{{ mysql_config_include_dir }}/mysqld_socket.cnf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - restart mysql
+  when: >-
+    ansible_os_family == "RedHat"
+
+- name: (MySQL) Create slow query log file (if configured).
+  command: >-
+    touch '{{ mysql_slow_query_log_file }}'
+  args:
+    creates: "{{ mysql_slow_query_log_file }}"
+    warn: false
+  notify:
+    - restart mysql
+  when:
+    - mysql_slow_query_log_enabled is defined
+    - mysql_slow_query_log_enabled
+
+- name: (MySQL) Set ownership on slow query log file (if configured).
+  file:
+    path: "{{ mysql_slow_query_log_file }}"
+    state: file
+    owner: mysql
+    group: "{{ mysql_log_file_group }}"
+    mode: 0640
+  notify:
+    - restart mysql
+  when:
+    - mysql_slow_query_log_enabled is defined
+    - mysql_slow_query_log_enabled
+
+- name: (MySQL) Start mysql service
+  service:
+    name: "{{ mysql_daemon }}"
+    state: started
+
+- name: (MySQL) Enable mysql service at boot
+  service:
+    name: "{{ mysql_daemon }}"
+    enabled: true
+
+#
+# mysql_secure_installation
+#
+
+- name: (MySQL) Check if /root/.my.cnf exists
+  stat:
+    path: "{{ mysql_root_home }}/.my.cnf"
+  changed_when: false
+  register: mysql_root_my_cnf
+
+- name: (MySQL) Generate MySQL password
+  set_fact:
+    mysql_root_password: "{{ password_generate }}"
+  when: >-
+    mysql_root_password is undefined
+
+- name: (MySQL) Update root MySQL password
+  mysql_user:
+    name: "{{ mysql_root_username }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+    password: "{{ mysql_root_password }}"
+    update_password: always
+  when: >-
+    mysql_install_packages.changed
+    or not mysql_root_my_cnf.stat.exists
+    or mysql_root_password_update
+
+- name: (MySQL) Copy .my.cnf file with root password credentials
+  template:
+    src: root/my.cnf.j2
+    dest: "{{ mysql_root_home }}/.my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+  when: >-
+    mysql_install_packages.changed
+    or not mysql_root_my_cnf.stat.exists
+    or mysql_root_password_update
+
+- name: (MySQL) Restrict root user to localhost
+  mysql_user:
+    name: "{{ mysql_root_username }}"
+    host: localhost
+    login_unix_socket: "{{ mysql_socket_path }}"
+
+- name: (MySQL) Remove all anonymous MySQL users.
+  mysql_user:
+    name: ""
+    host_all: true
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: absent
+
+- name: (MySQL) Remove MySQL test database
+  mysql_db:
+    name: "test"
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: absent
+
+- name: (MySQL) Disallow root login remotely
+  command: >-
+    mysql -NBe
+    "DELETE FROM mysql.user
+    WHERE User='{{ mysql_root_username }}'
+    AND Host NOT IN ('localhost');"
+  changed_when: false
