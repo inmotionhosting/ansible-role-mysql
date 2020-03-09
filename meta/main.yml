@@ -1,9 +1,9 @@
 ---
 galaxy_info:
   author: InMotion Hosting
-  description: Install and configure MySQL/MariaDB
+  description: Modular Ansible Role for deploying and configuring MySQL/MariaDB
   company: InMotion Hosting
-  license: Apache
+  license: GPLv3
   min_ansible_version: 2.7
 
   platforms:
