@@ -1,4 +1,4 @@
-inmotion.ultrastack_mysql
+inmotion.mysql
 =========
 
 Modular Ansible Role for deploying and configuring MySQL/MariaDB
