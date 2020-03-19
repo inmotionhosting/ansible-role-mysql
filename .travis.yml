@@ -5,7 +5,7 @@ services:
 
 env:
   global:
-    - ROLE_NAME="inmotion.mysql"
+    - ROLE_NAME="inmotionhosting.mysql"
   matrix:
     - MOLECULE_DISTRO="centos-7"
     - MOLECULE_DISTRO="centos-8"
