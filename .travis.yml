@@ -27,5 +27,8 @@ before_script:
   - mv ansible-role-$ROLE_NAME inmotionhosting.$ROLE_NAME
   - cd inmotionhosting.$ROLE_NAME
 
+script:
+  - molecule test
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
