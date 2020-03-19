@@ -1,9 +1,9 @@
-inmotion.ultrastack_mysql
+inmotionhosting.mysql
 =========
 
 Modular Ansible Role for deploying and configuring MySQL/MariaDB
 
-[![Build Status](https://travis-ci.org/inmotionhosting/inmotion.mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/inmotion.mysql)
+[![Build Status](https://travis-ci.org/inmotionhosting/mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/mysql)
 
 Requirements
 ------------
@@ -49,7 +49,7 @@ Example Playbook
 
     - hosts: www
       roles:
-         - role: inmotion.mysql
+         - role: inmotionhosting.mysql
 
 License
 -------
