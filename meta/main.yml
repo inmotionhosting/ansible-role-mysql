@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: mysql
   author: inmotionhosting
   description: Modular Ansible Role for deploying and configuring MySQL/MariaDB
   company: InMotion Hosting
