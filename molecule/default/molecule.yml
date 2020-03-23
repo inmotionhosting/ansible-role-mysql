@@ -6,14 +6,11 @@ driver:
   name: docker
 
 platforms:
-  - name: "molecule_inmotion_mysql_${MOLECULE_DISTRO:-centos-7}"
-    image: "jcmdln/molecule-images:${MOLECULE_DISTRO:-centos-7}"
-    pre_build_image: true
+  - name: "molecule_inmotionhosting.mysql_${MOLECULE_DISTRO:-centos-7}"
+    image: "inmotionhosting/molecule-images:${MOLECULE_DISTRO:-centos-7}"
     command: ""
-
+    pre_build_image: true
     privileged: true
-    capabilities:
-      - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 

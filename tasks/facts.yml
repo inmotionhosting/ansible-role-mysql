@@ -3,7 +3,7 @@
   include_vars: Debian.yml
   when: ansible_os_family == "Debian"
 
-- name: (RedHat-8) Include os_family vars
+- name: (RedHat 8) Include os_family vars
   include_vars: "RedHat-{{ ansible_distribution_major_version }}.yml"
   vars:
     versions: ["8"]
