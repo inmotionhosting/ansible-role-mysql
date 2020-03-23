@@ -3,7 +3,7 @@ inmotionhosting.mysql
 
 Modular Ansible Role for deploying and configuring MySQL/MariaDB
 
-[![Build Status](https://travis-ci.org/inmotionhosting/mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/mysql)
+[![Build Status](https://travis-ci.org/inmotionhosting/ansible-role-mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/ansible-role-mysql)
 
 Requirements
 ------------
