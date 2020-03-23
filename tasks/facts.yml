@@ -11,10 +11,23 @@
     - ansible_os_family == "RedHat"
     - ansible_distribution_major_version in versions
 
-- name: (Ubuntu 16.04)
+- name: (Debian 8) Handle errata
   set_fact:
-    mysql_daemon: "mysql"
-  when: ansible_distribution == "Ubuntu"
+    mysql_daemon: mysql
+    mysql_packages:
+      - mariadb-server
+      - python-mysqldb
+      - libdbd-mysql-perl
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_major_version == "8"
+
+- name: (Ubuntu 16.04) Handle errata
+  set_fact:
+    mysql_daemon: mysql
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version == "16.04"
 
 - name: (MySQL) Set and sanitize facts
   set_fact:
