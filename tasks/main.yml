@@ -31,24 +31,14 @@
     ansible_os_family == "RedHat"
 
 - name: (MySQL) Create slow query log file (if configured).
-  command: >-
-    touch '{{ mysql_slow_query_log_file }}'
-  args:
-    creates: "{{ mysql_slow_query_log_file }}"
-    warn: false
-  notify:
-    - restart mysql
-  when:
-    - mysql_slow_query_log_enabled is defined
-    - mysql_slow_query_log_enabled
-
-- name: (MySQL) Set ownership on slow query log file (if configured).
   file:
     path: "{{ mysql_slow_query_log_file }}"
-    state: file
+    state: touch
     owner: mysql
     group: "{{ mysql_log_file_group }}"
     mode: 0640
+    modification_time: preserve
+    access_time: preserve
   notify:
     - restart mysql
   when:
@@ -63,7 +53,7 @@
 - name: (MySQL) Enable mysql service at boot
   service:
     name: "{{ mysql_daemon }}"
-    enabled: true
+    enabled: yes
 
 #
 # mysql_secure_installation
