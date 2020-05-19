@@ -18,6 +18,13 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version == "16.04"
 
+- name: (Ubuntu 20.04) Handle errata
+  set_fact:
+    mysql_packages: "{{ mysql_packages | difference(['python-pymysql']) }}"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version == "20.04"
+
 - name: (MySQL) Set and sanitize facts
   set_fact:
     mysql_daemon: >-
