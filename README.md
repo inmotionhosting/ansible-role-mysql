@@ -1,19 +1,22 @@
-inmotionhosting.mysql
-=======
+[![Build Status](https://travis-ci.org/inmotionhosting/ansible-role-mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/ansible-role-mysql) [![GPL-3.0 License](https://img.shields.io/github/license/inmotionhosting/ansible-role-mysql.svg?color=blue)](https://github.com/inmotionhosting/ansible-role-mysql/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/inmotionhosting/ansible-role-mysql.svg)](https://github.com/inmotionhosting/ansible-role-mysql/stargazers)
+
+# Ansible Role: MySQL
 
 Modular Ansible Role for deploying and configuring MySQL/MariaDB
 
-[![Build Status](https://travis-ci.org/inmotionhosting/ansible-role-mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/ansible-role-mysql)
-
-Requirements
-------------
+## Requirements
 
 * CentOS 7.x or later
 * Debian 9 or later
-* Ubuntu 16.04.x LTS or later
+* Ubuntu 16.04 LTS or later
 
-Role Variables
---------------
+## Dependencies
+
+None.
+
+## Role Variables
+
+Available variables are listed below with their default values (you can also see `defaults/main.yml`)
 
 | Variable | Description |
 | -------- | ----------- |
@@ -36,25 +39,18 @@ Role Variables
 | mysql_packages | Default: `The MySQL packages to install`
 | password_generate | Default: `"{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"`
 
+## Example Playbook
 
-Dependencies
-------------
+```yaml
+- hosts: www
+  roles:
+     - role: inmotionhosting.mysql
+```
 
-None.
-
-Example Playbook
-----------------
-
-    - hosts: www
-      roles:
-         - role: inmotionhosting.mysql
-
-License
--------
+## License
 
 GPLv3
 
-Author Information
-------------------
+## Author Information
 
 [InMotion Hosting](https://inmotionhosting.com)
