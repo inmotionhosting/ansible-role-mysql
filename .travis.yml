@@ -8,8 +8,6 @@ addons:
       - python3-pip
 
 env:
-  global:
-    - ROLE_NAME="mysql"
   matrix:
     - MOLECULE_DISTRO="centos-7"
     - MOLECULE_DISTRO="centos-8"
