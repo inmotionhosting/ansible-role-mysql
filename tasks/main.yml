@@ -27,16 +27,15 @@
     mode: "0644"
   notify:
     - restart mysql
-  when: >-
-    ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat"
 
-- name: (MySQL) Create slow query log file (if configured).
+- name: (MySQL) Create slow query log file (if configured)
   file:
     path: "{{ mysql_slow_query_log_file }}"
     state: touch
     owner: mysql
     group: "{{ mysql_log_file_group }}"
-    mode: 0640
+    mode: "0640"
     modification_time: preserve
     access_time: preserve
   notify:
@@ -88,7 +87,7 @@
     dest: "{{ mysql_root_home }}/.my.cnf"
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
   when: >-
     mysql_install_packages.changed
     or not mysql_root_my_cnf.stat.exists
