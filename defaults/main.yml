@@ -16,6 +16,9 @@ mysql_pid_file: /var/run/mariadb/mariadb.pid
 mysql_socket: true
 mysql_socket_path: /var/lib/mysql/mysql.sock
 
+mysql_systemd_restart: false
+systemd_restart_setting: on-failure
+
 #
 # Logging
 #

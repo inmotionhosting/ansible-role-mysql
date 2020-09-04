@@ -127,3 +127,19 @@
       and mysql_packages is iterable
       and mysql_packages | length > 0
       else ["mariadb-server", "MySQL-python", "perl-DBD-MySQL"] }}
+
+- name: Check variable 'systemd_restart_setting'
+  fail:
+    msg: |
+      Invalid value for variable 'systemd_restart_setting': '{{ systemd_restart_setting }}'
+
+      'systemd_restart_setting' must be one of the following:
+      no, on-success, on-failure, on-abnormal, on-watchdog, on-abort, always.
+  failed_when: >-
+    (systemd_restart_setting not in
+    ['no', 'on-success', 'on-failure', 'on-abnormal',
+    'on-watchdog', 'on-abort', 'always']
+    or systemd_restart_setting is not string
+    or systemd_restart_setting == 0)
+    and (mysql_systemd_restart
+    or systemd_restart)

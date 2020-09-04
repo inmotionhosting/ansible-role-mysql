@@ -119,3 +119,10 @@
     WHERE User='{{ mysql_root_username }}'
     AND Host NOT IN ('localhost');"
   changed_when: false
+
+- name: Include systemd restart configuation
+  include: systemd.yml
+  when:  >-
+    ( mysql_systemd_restart|default(False)
+    or systemd_restart|default(False) )
+    and systemd_restart_setting is defined
