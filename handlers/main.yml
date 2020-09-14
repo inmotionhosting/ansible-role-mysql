@@ -2,6 +2,7 @@
 # handlers file for inmotion.ultrastack_mysql
 
 - name: restart mysql
-  service:
-    name: '{{ mysql_daemon }}'
+  systemd:
     state: restarted
+    daemon_reload: yes
+    name: '{{ mysql_daemon }}'
