@@ -1,6 +1,20 @@
 ---
 # defaults file for inmotion.ultrastack_mysql
 
+mysql_required_strings:
+  - mysql_daemon
+  - mysql_root_home
+  - mysql_root_username
+  - mysql_config_file
+  - mysql_config_include_dir
+  - mysql_pid_file
+  - mysql_socket_path
+  - mysql_log_dir
+  - mysql_log_error
+  - mysql_log_file_group
+  - mysql_slow_query_log_file
+  - mysql_syslog_tag
+
 mysql_daemon: mariadb
 mysql_supports_innodb_large_prefix: true
 

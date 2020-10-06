@@ -25,121 +25,34 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version == "20.04"
 
-- name: (MySQL) Set and sanitize facts
-  set_fact:
-    mysql_daemon: >-
-      {{ mysql_daemon
-      if mysql_daemon is defined
-      and mysql_daemon is string
-      and mysql_daemon != 0
-      else "mariadb" }}
-    mysql_supports_innodb_large_prefix: >-
-      {{ mysql_supports_innodb_large_prefix
-      if mysql_supports_innodb_large_prefix is defined
-      else true }}
+- name: Check required MySQL variables (strings)
+  fail:
+    msg: |
+      Invalid value for variable for '{{ item }}': {{ lookup('vars', item) }}
 
-    mysql_root_home: >-
-      {{ mysql_root_home
-      if mysql_root_home is defined
-      and mysql_root_home is string
-      and mysql_root_home != 0
-      else "/root" }}
-    mysql_root_password_update: >-
-      {{ mysql_root_password_update
-      if mysql_root_password_update is defined
-      else false }}
-    mysql_root_username: >-
-      {{ mysql_root_username
-      if mysql_root_username is defined
-      and mysql_root_username is string
-      and mysql_root_username != 0
-      else "root" }}
-
-    mysql_config_file: >-
-      {{ mysql_config_file
-      if mysql_config_file is defined
-      and mysql_config_file is string
-      and mysql_config_file != 0
-      else "/etc/my.cnf" }}
-    mysql_config_include_dir: >-
-      {{ mysql_config_include_dir
-      if mysql_config_include_dir is defined
-      and mysql_config_include_dir is string
-      and mysql_config_include_dir != 0
-      else "/etc/my.cnf.d" }}
-
-    mysql_pid_file: >-
-      {{ mysql_pid_file
-      if mysql_pid_file is defined
-      and mysql_pid_file is string
-      and mysql_pid_file != 0
-      else "/var/run/mariadb/mariadb.pid" }}
-
-    mysql_socket: >-
-      {{ mysql_socket
-      if mysql_socket is defined
-      else true }}
-    mysql_socket_path: >-
-      {{ mysql_socket_path
-      if mysql_socket_path is defined
-      and mysql_socket_path is string
-      and mysql_socket_path != 0
-      else "/var/lib/mysql/mysql.sock" }}
-
-    mysql_log_dir: >-
-      {{ mysql_log_dir
-      if mysql_log_dir is defined
-      and mysql_log_dir is string
-      and mysql_log_dir != 0
-      else "/var/log/" }}
-    mysql_log_error: >-
-      {{ mysql_log_error
-      if mysql_log_error is defined
-      and mysql_log_error is string
-      and mysql_log_error != 0
-      else mysql_log_dir + "/mariadb/mariadb.log" }}
-    mysql_log_file_group: >-
-      {{ mysql_log_file_group
-      if mysql_log_file_group is defined
-      and mysql_log_file_group is string
-      and mysql_log_file_group != 0
-      else "mysql" }}
-    mysql_slow_query_log_enabled: >-
-      {{ mysql_slow_query_log_enabled
-      if mysql_slow_query_log_enabled is defined
-      else true }}
-    mysql_slow_query_log_file: >-
-      {{ mysql_slow_query_log_file
-      if mysql_slow_query_log_file is defined
-      and mysql_slow_query_log_file is string
-      and mysql_slow_query_log_file != 0
-      else mysql_log_dir + "/mariadb/mariadb-slow.log" }}
-    mysql_syslog_tag: >-
-      {{ mysql_syslog_tag
-      if mysql_syslog_tag is defined
-      and mysql_syslog_tag is string
-      and mysql_syslog_tag != 0
-      else "mariadb" }}
-
-    mysql_packages: >-
-      {{ mysql_packages
-      if mysql_packages is defined
-      and mysql_packages is iterable
-      and mysql_packages | length > 0
-      else ["mariadb-server", "MySQL-python", "perl-DBD-MySQL"] }}
+      Supported types  : String
+      Supported values : Any non-null string
+  when: >-
+    lookup('vars', item) is not string
+    or lookup('vars', item) == 0
+  with_items: "{{ mysql_required_strings }}"
 
 - name: Check variable 'systemd_restart_setting'
   fail:
     msg: |
       Invalid value for variable 'systemd_restart_setting': '{{ systemd_restart_setting }}'
 
-      'systemd_restart_setting' must be one of the following:
-      no, on-success, on-failure, on-abnormal, on-watchdog, on-abort, always.
+      Supported types  : String
+      Supported values : "no", "on-success", "on-failure", "on-abnormal",
+                         "on-watchdog", "on-abort", "always"
   failed_when: >-
-    (systemd_restart_setting not in
+    systemd_restart_setting not in
     ['no', 'on-success', 'on-failure', 'on-abnormal',
     'on-watchdog', 'on-abort', 'always']
     or systemd_restart_setting is not string
-    or systemd_restart_setting == 0)
-    and (mysql_systemd_restart
-    or systemd_restart)
+    or systemd_restart_setting == 0
+  when: >-
+    (mysql_systemd_restart is defined
+    and mysql_systemd_restart)
+    or (systemd_restart is defined
+    and systemd_restart)
