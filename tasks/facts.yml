@@ -25,6 +25,22 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version == "20.04"
 
+- name: Set lists of required variables
+  set_fact:
+    mysql_required_strings:
+      - mysql_daemon
+      - mysql_root_home
+      - mysql_root_username
+      - mysql_config_file
+      - mysql_config_include_dir
+      - mysql_pid_file
+      - mysql_socket_path
+      - mysql_log_dir
+      - mysql_log_error
+      - mysql_log_file_group
+      - mysql_slow_query_log_file
+      - mysql_syslog_tag
+
 - name: Check required MySQL variables (strings)
   fail:
     msg: |
