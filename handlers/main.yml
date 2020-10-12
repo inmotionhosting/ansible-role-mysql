@@ -5,4 +5,4 @@
   systemd:
     state: restarted
     daemon_reload: yes
-    name: '{{ mysql_daemon }}'
+    name: "{{ mysql_daemon }}"
