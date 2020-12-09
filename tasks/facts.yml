@@ -4,12 +4,10 @@
   when: ansible_os_family == "Debian"
 
 - name: (RedHat 8) Include os_family vars
-  include_vars: "RedHat-{{ ansible_distribution_major_version }}.yml"
-  vars:
-    versions: ["8"]
+  include_vars: "RedHat-8.yml"
   when:
     - ansible_os_family == "RedHat"
-    - ansible_distribution_major_version in versions
+    - ansible_distribution_major_version == "8"
 
 - name: (Ubuntu 16.04) Handle errata
   set_fact:
