@@ -9,13 +9,6 @@
     - ansible_os_family == "RedHat"
     - ansible_distribution_major_version == "8"
 
-- name: (Ubuntu 16.04) Handle errata
-  set_fact:
-    mysql_daemon: mysql
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version == "16.04"
-
 - name: (Ubuntu 20.04) Handle errata
   set_fact:
     mysql_packages: "{{ mysql_packages | difference(['python-pymysql']) }}"

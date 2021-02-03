@@ -1,5 +1,6 @@
 ---
-# defaults file for inmotion.ultrastack_mysql
+mysql_version: "10.5"
+mysql_version_flat: '{{ php_version | replace(".", "") }}'
 
 mysql_daemon: mariadb
 mysql_supports_innodb_large_prefix: true

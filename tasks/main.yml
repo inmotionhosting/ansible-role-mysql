@@ -1,132 +1,30 @@
 ---
-# tasks file for inmotion.ultrastack_mysql
-
 - name: Include variables and set facts
-  include: facts.yml
+  include_tasks: facts.yml
 
-- name: (Ubuntu) Update APT cache
-  apt:
-    force_apt_get: true
-    cache_valid_time: "3600"
-    state: present
-    update_cache: true
-  when: ansible_distribution == "Ubuntu"
+- name: Add official MySQL/MariaDB repositories
+  include_tasks: repo.yml
 
-- name: (RedHat 7) Install MariaDB repo
-  yum_repository:
-    name: MariaDB
-    description: MariaDB YUM repo
-    baseurl: http://yum.mariadb.org/10.3/centos7-amd64/
-    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-    gpgcheck: yes
-  when:
-    - ansible_os_family == "RedHat"
-    - ansible_distribution_major_version == "7"
-
-- name: Install MySQL packages.
+- name: Install MySQL/MariaDB packages.
   package:
     name: "{{ mysql_packages }}"
     state: present
   register: mysql_install_packages
 
-- name: (RedHat) Ensure MySQL will use a unix socket
-  template:
-    src: etc/my.cnf.d/mysqld_socket.cnf.j2
-    dest: "{{ mysql_config_include_dir }}/mysqld_socket.cnf"
-    owner: root
-    group: root
-    mode: "0644"
-  notify: restart mysql
-  when: ansible_os_family == "RedHat"
+- name: Configure MySQL/MariaDB
+  include_tasks: configure.yml
 
-- name: Create slow query log file (if configured)
-  file:
-    path: "{{ mysql_slow_query_log_file }}"
-    state: touch
-    owner: mysql
-    group: "{{ mysql_log_file_group }}"
-    mode: "0640"
-    modification_time: preserve
-    access_time: preserve
-  notify: restart mysql
-  when:
-    - mysql_slow_query_log_enabled is defined
-    - mysql_slow_query_log_enabled
-
-- name: Start and enable MySQL service
+- name: Start and enable MySQL/MariaDB service
   service:
     name: "{{ mysql_daemon }}"
     state: started
     enabled: yes
 
-#
-# mysql_secure_installation
-#
+- name: Secure MySQL/MariaDB
+  include_tasks: security.yml
 
-- name: Check if /root/.my.cnf exists
-  stat:
-    path: "{{ mysql_root_home }}/.my.cnf"
-  changed_when: false
-  register: mysql_root_my_cnf
-
-- name: Generate MySQL password
-  set_fact:
-    mysql_root_password: "{{ password_generate }}"
-  when: >-
-    mysql_root_password is undefined
-
-- name: Update root MySQL password
-  mysql_user:
-    name: "{{ mysql_root_username }}"
-    login_unix_socket: "{{ mysql_socket_path }}"
-    password: "{{ mysql_root_password }}"
-    update_password: always
-  when: >-
-    mysql_install_packages.changed
-    or not mysql_root_my_cnf.stat.exists
-    or mysql_root_password_update
-
-- name: Copy .my.cnf file with root password credentials
-  template:
-    src: root/my.cnf.j2
-    dest: "{{ mysql_root_home }}/.my.cnf"
-    owner: root
-    group: root
-    mode: "0600"
-  when: >-
-    mysql_install_packages.changed
-    or not mysql_root_my_cnf.stat.exists
-    or mysql_root_password_update
-
-- name: Restrict root user to localhost
-  mysql_user:
-    name: "{{ mysql_root_username }}"
-    host: localhost
-    login_unix_socket: "{{ mysql_socket_path }}"
-
-- name: Remove all anonymous MySQL users.
-  mysql_user:
-    name: ""
-    host_all: true
-    login_unix_socket: "{{ mysql_socket_path }}"
-    state: absent
-
-- name: Remove MySQL test database
-  mysql_db:
-    name: "test"
-    login_unix_socket: "{{ mysql_socket_path }}"
-    state: absent
-
-- name: Disallow root login remotely
-  command: >-
-    mysql -NBe
-    "DELETE FROM mysql.user
-    WHERE User='{{ mysql_root_username }}'
-    AND Host NOT IN ('localhost');"
-  changed_when: false
-
-- name: Include systemd restart configuation
-  include: systemd.yml
+- name: Include systemd restart configuration
+  include_tasks: systemd.yml
   when: >-
     ( mysql_systemd_restart|default(False)
     or systemd_restart|default(False) )

@@ -1,6 +1,4 @@
 ---
-# handlers file for inmotion.ultrastack_mysql
-
 - name: restart mysql
   systemd:
     state: restarted
