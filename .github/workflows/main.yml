@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
+    branches: [ master ]
 
 jobs:
   test:
@@ -12,12 +14,12 @@ jobs:
     strategy:
       matrix:
         molecule_distro:
-          - centos-7
-          - centos-8
-          - debian-9
-          - debian-10
-          - ubuntu-18.04
-          - ubuntu-20.04
+          - "centos:7"
+          - "centos:8"
+          - "debian:10"
+          - "debian:11"
+          - "ubuntu:18.04"
+          - "ubuntu:20.04"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -26,4 +28,4 @@ jobs:
       - run: pip install -r requirements.txt
       - run: molecule test
         env:
-          MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
+          MOLECULE_IMAGE: ${{ matrix.molecule_distro }}
