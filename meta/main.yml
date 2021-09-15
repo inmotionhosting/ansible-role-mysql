@@ -5,7 +5,7 @@ galaxy_info:
   description: Modular Ansible Role for deploying and configuring MySQL/MariaDB
   company: InMotion Hosting
   license: GPLv3
-  min_ansible_version: 2.8
+  min_ansible_version: 2.9
 
   platforms:
     - name: EL
@@ -14,8 +14,8 @@ galaxy_info:
         - 8
     - name: Debian
       versions:
-        - stretch
         - buster
+        - bullseye
     - name: Ubuntu
       versions:
         - bionic
