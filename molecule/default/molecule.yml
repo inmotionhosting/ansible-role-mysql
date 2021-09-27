@@ -7,7 +7,7 @@ driver:
 
 platforms:
   - name: "molecule-ansible-role-mysql"
-    image: "${MOLECULE_DISTRO:-centos:8}"
+    image: "${MOLECULE_IMAGE:-centos:8}"
     command: ""
     privileged: true
     volumes:
