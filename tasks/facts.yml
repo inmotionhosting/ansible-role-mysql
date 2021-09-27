@@ -9,14 +9,14 @@
     - ansible_os_family == "RedHat"
     - ansible_distribution_major_version == "8"
 
-- name: (Debian 11, Ubuntu 20.04) Drop python 2.x packages from 3.x+ distributions
+- name: (Debian 11, Ubuntu 20.04) Drop python 2.x packages
   set_fact:
     mysql_packages: "{{ mysql_packages | difference(['python-pymysql']) }}"
   when: >-
-    (ansible_distribution == "debian"
-    and ansible_distribution_version == "11")
-    or (ansible_distribution == "Ubuntu"
-    and ansible_distribution_version == "20.04")
+    (ansible_distribution|lower == "debian"
+    and ansible_distribution_release|lower == "bullseye")
+    or (ansible_distribution|lower == "ubuntu"
+    and ansible_distribution_release|lower == "focal")
 
 - name: Set lists of required variables
   set_fact:
