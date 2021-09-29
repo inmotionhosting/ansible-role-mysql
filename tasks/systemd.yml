@@ -1,19 +1,9 @@
 ---
-- name: (Debian) Install python-apt package
+- name: (Debian) Install python3-apt package
   package:
     name: python3-apt
     state: present
-  when:
-    - ansible_python_version is version('3.0', '>=')
-    - ansible_os_family == "Debian"
-
-- name: (Debian) Install python-apt package
-  package:
-    name: python-apt
-    state: present
-  when:
-    - ansible_python_version is version('3.0', '<')
-    - ansible_os_family == "Debian"
+  when: ansible_os_family|lower == "debian"
 
 - name: Gather package facts
   package_facts:

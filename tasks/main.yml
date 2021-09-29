@@ -3,7 +3,7 @@
   include_tasks: facts.yml
 
 - name: Add official MySQL/MariaDB repositories
-  include_tasks: repo.yml
+  include_tasks: "packages/{{ ansible_os_family|lower }}.yml"
 
 - name: Install MySQL/MariaDB packages.
   package:
@@ -25,7 +25,6 @@
 
 - name: Include systemd restart configuration
   include_tasks: systemd.yml
-  when: >-
-    ( mysql_systemd_restart|default(False)
-    or systemd_restart|default(False) )
-    and systemd_restart_setting is defined
+  when:
+    - mysql_systemd_restart|default(false) or systemd_restart|default(false)
+    - systemd_restart_setting is defined

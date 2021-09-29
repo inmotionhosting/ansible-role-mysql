@@ -1,22 +1,20 @@
 ---
 - name: (Debian) Include os_family vars
-  include_vars: Debian.yml
-  when: ansible_os_family == "Debian"
+  include_vars: debian.yml
+  when: ansible_os_family|lower == "debian"
 
 - name: (RedHat 8) Include os_family vars
-  include_vars: "RedHat-8.yml"
+  include_vars: "redhat-8.yml"
   when:
-    - ansible_os_family == "RedHat"
+    - ansible_os_family|lower == "redhat"
     - ansible_distribution_major_version == "8"
 
 - name: (Debian 11, Ubuntu 20.04) Drop python 2.x packages
   set_fact:
-    mysql_packages: "{{ mysql_packages | difference(['python-pymysql']) }}"
-  when: >-
-    (ansible_distribution|lower == "debian"
-    and ansible_distribution_release|lower == "bullseye")
-    or (ansible_distribution|lower == "ubuntu"
-    and ansible_distribution_release|lower == "focal")
+    mysql_packages: "{{ mysql_packages|difference(['python-pymysql']) }}"
+  when:
+    - ansible_distribution|lower in ["debian", "ubuntu"]
+    - ansible_distribution_release|lower in ["bullseye", "focal"]
 
 - name: Set lists of required variables
   set_fact:
@@ -61,7 +59,5 @@
     or systemd_restart_setting is not string
     or systemd_restart_setting == 0
   when: >-
-    (mysql_systemd_restart is defined
-    and mysql_systemd_restart)
-    or (systemd_restart is defined
-    and systemd_restart)
+    (mysql_systemd_restart is defined and mysql_systemd_restart|bool)
+    or (systemd_restart is defined and systemd_restart|bool)
