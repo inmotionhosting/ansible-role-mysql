@@ -45,3 +45,11 @@ mysql_packages:
 #
 
 password_generate: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+
+#
+# InnoDB Variables
+#
+mysql_innodb_file_per_table: 1
+mysql_innodb_buffer_pool_size: 128MB
+mysql_innodb_log_buffer_size: 16MB
+mysql_innodb_log_file_size: 96MB

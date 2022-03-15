@@ -22,3 +22,12 @@
   when:
     - mysql_slow_query_log_enabled is defined
     - mysql_slow_query_log_enabled|bool
+
+- name: Configre MySQL InnoDB Settings
+  template:
+    src: etc/my.cnf.d/innodb.cnf.j2
+    dest: "{{ mysql_config_include_dir }}/innodb.cnf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart mysql
