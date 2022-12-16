@@ -1,5 +1,5 @@
 ---
-mysql_version: "10.5"
+mysql_version: "10.6"
 mysql_version_flat: '{{ php_version | replace(".", "") }}'
 
 mysql_daemon: mariadb
