@@ -27,8 +27,8 @@ systemd_restart_setting: on-failure
 mysql_log_dir: /var/lib/mysql
 mysql_log_error: "{{ mysql_log_dir }}/{{ ansible_fqdn }}.err"
 mysql_log_file_group: mysql
-mysql_slow_query_log_enabled: false
-mysql_slow_query_log_file: "{{ mysql_log_dir }}/$hostname-slow_query_log.log"
+mysql_slow_query_log_enabled: true
+mysql_slow_query_log_file: "{{ mysql_log_dir }}/mysql-slow.log"
 mysql_syslog_tag: mariadb
 
 #
