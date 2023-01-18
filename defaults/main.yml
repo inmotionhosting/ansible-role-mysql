@@ -24,8 +24,8 @@ systemd_restart_setting: on-failure
 # Logging
 #
 
-mysql_log_dir: /var/log/
-mysql_log_error: "{{ mysql_log_dir }}/mariadb/mariadb.log"
+mysql_log_dir: /var/lib/mysql
+mysql_log_error: "{{ mysql_log_dir }}/{{ ansible_fqdn }}.err"
 mysql_log_file_group: mysql
 mysql_slow_query_log_enabled: true
 mysql_slow_query_log_file: "{{ mysql_log_dir }}/mysql-slow.log"
@@ -52,4 +52,3 @@ password_generate: "{{ lookup('password', '/dev/null length=15 chars=ascii_lette
 mysql_innodb_file_per_table: 1
 mysql_innodb_buffer_pool_size: 128MB
 mysql_innodb_log_buffer_size: 16MB
-mysql_innodb_log_file_size: 96MB

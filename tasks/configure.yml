@@ -31,3 +31,12 @@
     group: root
     mode: "0644"
   notify: restart mysql
+
+- name: Configre MySQL Logging Settings
+  template:
+    src: etc/my.cnf.d/logs.cnf.j2
+    dest: "{{ mysql_config_include_dir }}/logs.cnf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart mysql
