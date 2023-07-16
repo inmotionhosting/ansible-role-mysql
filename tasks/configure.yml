@@ -40,3 +40,12 @@
     group: root
     mode: "0644"
   notify: restart mysql
+
+- name: Configure MySQL Query Cache
+  template:
+    src: etc/my.cnf.d/qcache.cnf.j2
+    dest: "{{ mysql_config_include_dir }}/qcache.cnf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart mysql
