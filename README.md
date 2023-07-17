@@ -39,6 +39,19 @@ Available variables are listed below with their default values (you can also see
 | mysql_syslog_tag | Default: `mariadb`
 | mysql_packages | Default: `The MySQL packages to install`
 | password_generate | Default: `"{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"`
+| mysql_query_alloc_block_size | Default: `16384`
+| mysql_query_cache_limit | Default: `1M`
+| mysql_query_cache_min_res_unit | Default: `4096`
+| mysql_query_cache_size | Default: `16M`
+| mysql_query_cache_strip_comments | Default: `0`
+| mysql_query_cache_type | Default: `1`
+| mysql_query_cache_wlock_invalidate | Default: `0`
+| mysql_query_prealloc_size | Default: `24576`
+| mysql_innodb_file_per_table | Default: `1`
+| mysql_innodb_buffer_pool_size | Default: `128M`
+| mysql_innodb_log_buffer_size | Default: `16M`
+| mysql_innodb_log_file_size | Default: `96M`
+
 
 ## Example Playbook
 ```yaml
