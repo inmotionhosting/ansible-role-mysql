@@ -7,7 +7,7 @@ driver:
 
 platforms:
   - name: "molecule-ansible-role-mysql"
-    image: "${MOLECULE_IMAGE:-centos:7}"
+    image: "inmotionhosting/molecule-images:${MOLECULE_DISTRO:-centos-7}"
     command: ""
     privileged: true
     volumes:
