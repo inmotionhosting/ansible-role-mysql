@@ -4,6 +4,13 @@ FROM {{ item.registry.url }}/{{ item.image }}
 FROM {{ item.image }}
 {% endif %}
 
+{% if "centos:7" in item.image %}
+RUN yum -y install \
+    yum-plugin-copr && \
+    yum -y copr enable jsynacek/systemd-backports-for-centos-7 && \
+    yum -y update systemd
+{% endif %}
+
 RUN if [ "$(command -v apt)" ]; then \
         apt update && \
         apt install -y --no-install-recommends --no-install-suggests \
