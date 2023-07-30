@@ -8,23 +8,26 @@ on:
   workflow_dispatch:
     branches: [master]
 
+
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         image:
-          - "centos:7"
-          - "debian:11"
-          - "ubuntu:18.04"
-          - "ubuntu:20.04"
+          - "ubuntu2004"
+          - "ubuntu2204"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
 
-      - run: pip install --user -r requirements.txt
+      - run: pip3 install --user -r requirements.txt
+      - run: pip3 install ansible molecule molecule-plugins[docker] docker      
       - run: molecule test
         env:
           MOLECULE_IMAGE: ${{ matrix.image }}
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'          
