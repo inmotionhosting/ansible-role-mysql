@@ -5,7 +5,7 @@
       - apt-transport-https
       - ca-certificates
       - gpg
-      - software-properties-
+      - software-properties-common
       - gpg-agent
     cache_valid_time: "3600"
     force_apt_get: true
