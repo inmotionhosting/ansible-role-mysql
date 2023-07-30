@@ -21,7 +21,6 @@ jobs:
           - image: geerlingguy/docker-ubuntu1804-ansible:latest
             command: /lib/systemd/systemd
           - image: ghcr.io/artis3n/docker-almalinux8-ansible:latest
-          - image: cisagov/docker-debian12-ansible:latest
           - image: geerlingguy/docker-debian11-ansible:latest
             command: /lib/systemd/systemd
           - image: geerlingguy/docker-debian10-ansible:latest
