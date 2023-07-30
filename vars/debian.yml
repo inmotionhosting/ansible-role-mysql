@@ -6,5 +6,6 @@ mysql_socket_path: /var/run/mysqld/mysqld.sock
 
 mysql_packages:
   - mariadb-server
+  - python-pymysql
   - python3-pymysql
   - libdbd-mysql-perl
