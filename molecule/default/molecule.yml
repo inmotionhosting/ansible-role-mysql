@@ -6,7 +6,7 @@ driver:
   name: docker
 
 platforms:
-  - name: "molecule-ansible-role-mysql-${MOLECULE_IMAGE:-ubuntu2204}"
+  - name: "molecule-ansible-role-mysql"
     image: ${MOLECULE_IMAGE:-geerlingguy/docker-ubuntu2204-ansible:latest}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
