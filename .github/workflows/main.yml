@@ -18,6 +18,7 @@ jobs:
         include:
           - image: geerlingguy/docker-ubuntu2204-ansible:latest
           - image: geerlingguy/docker-ubuntu2004-ansible:latest
+          - image: ghcr.io/artis3n/docker-almalinux8-ansible:latest          
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
