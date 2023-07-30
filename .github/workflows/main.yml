@@ -18,6 +18,8 @@ jobs:
         include:
           - image: geerlingguy/docker-ubuntu2204-ansible:latest
           - image: geerlingguy/docker-ubuntu2004-ansible:latest
+          - image: geerlingguy/docker-ubuntu1804-ansible:latest
+            command: /lib/systemd/systemd          
           - image: ghcr.io/artis3n/docker-almalinux8-ansible:latest          
     steps:
       - uses: actions/checkout@v2
@@ -30,5 +32,6 @@ jobs:
       - run: molecule test
         env:
           MOLECULE_IMAGE: ${{ matrix.image }}
+          MOLECULE_COMMAND: ${{ matrix.command }}
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'          
