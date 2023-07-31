@@ -9,5 +9,4 @@
     gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
     gpgcheck: true
     state: present
-    module_hotfixes: true
   when: ansible_os_family|lower == "redhat"

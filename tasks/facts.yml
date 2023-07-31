@@ -9,7 +9,7 @@
     - ansible_os_family|lower == "redhat"
     - ansible_distribution_major_version == "8"
 
-- name: (Debian 11+, Ubuntu 20.04+) Drop python 2.x packages
+- name: (Debian 11, Ubuntu 20.04) Drop python 2.x packages
   set_fact:
     mysql_packages: "{{ mysql_packages|difference(['python-pymysql']) }}"
   when:

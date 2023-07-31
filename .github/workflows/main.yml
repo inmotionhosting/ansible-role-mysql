@@ -8,8 +8,6 @@ on:
   workflow_dispatch:
     branches: [master]
 
-
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,13 +26,10 @@ jobs:
           python-version: "3.x"
 
       - run: pip3 install --user -r requirements.txt
-      - run: pip3 install ansible molecule molecule-plugins[docker] docker      
       - run: molecule test
         env:
           MOLECULE_IMAGE: ${{ matrix.image }}
-          MOLECULE_COMMAND: ${{ matrix.command }}
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'          
+
   test-legacy:
     runs-on: ubuntu-20.04
     strategy:
@@ -48,10 +43,6 @@ jobs:
           python-version: "3.x"
 
       - run: pip3 install --user -r requirements.txt
-      - run: pip3 install ansible molecule molecule-plugins[docker] docker      
       - run: molecule test
         env:
           MOLECULE_IMAGE: ${{ matrix.image }}
-          MOLECULE_COMMAND: ${{ matrix.command }}
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'  
