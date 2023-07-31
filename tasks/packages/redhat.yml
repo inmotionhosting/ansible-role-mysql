@@ -4,8 +4,9 @@
     name: MariaDB
     description: MariaDB {{ mysql_version }} CentOS repository
     baseurl: >-
-      https://ftp.osuosl.org/pub/mariadb/yum/{{ mysql_version }}/rhel/$releasever/$basearch
-    gpgkey: https://ftp.osuosl.org/pub/mariadb/yum/RPM-GPG-KEY-MariaDB
+      http://yum.mariadb.org/{{ mysql_version }}/centos{{-
+      ansible_distribution_major_version -}}-amd64/
+    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
     gpgcheck: true
     state: present
     module_hotfixes: true

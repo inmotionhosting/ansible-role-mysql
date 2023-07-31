@@ -14,7 +14,7 @@
     mysql_packages: "{{ mysql_packages|difference(['python-pymysql']) }}"
   when:
     - ansible_distribution|lower in ["debian", "ubuntu"]
-    - ansible_distribution_release|lower in ["bullseye", "bookworm", "focal", "jammy"]
+    - ansible_distribution_release|lower in ["bullseye", "focal"]
 
 - name: Set lists of required variables
   set_fact:
