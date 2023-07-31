@@ -20,14 +20,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - image: geerlingguy/docker-centos8-ansible:latest
-          - image: geerlingguy/docker-debian10-ansible:latest
+          - image: centos8
+          - image: debian10
             command: /lib/systemd/systemd
-          - image: geerlingguy/docker-debian11-ansible:latest
+          - image: debian11
             command: /lib/systemd/systemd
-          - image: geerlingguy/docker-ubuntu1804-ansible:latest
+          - image: ubuntu1804
             command: /lib/systemd/systemd
-          - image: geerlingguy/docker-ubuntu2004-ansible:latest
+          - image: ubuntu2004
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -46,7 +46,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - image: geerlingguy/docker-centos7-ansible:latest
+          - image: geerlingguy/centos7
             command: /usr/lib/systemd/systemd
     steps:
       - uses: actions/checkout@v2
