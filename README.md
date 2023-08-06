@@ -34,7 +34,6 @@ Available variables are listed below with their default values (you can also see
 | mysql_log_error | Default: `"{{ mysql_log_dir }}/mariadb/mariadb.log"`
 | mysql_log_file_group | Default: `mysql`
 | mysql_packages | Default: `The MySQL packages to install`
-| mysql_pid_file | Default: `/var/run/mariadb/mariadb.pid`
 | mysql_query_alloc_block_size | Default: `16384`
 | mysql_query_cache_limit | Default: `1M`
 | mysql_query_cache_min_res_unit | Default: `4096`

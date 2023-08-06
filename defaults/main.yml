@@ -12,8 +12,6 @@ mysql_root_username: root
 mysql_config_file: /etc/my.cnf
 mysql_config_include_dir: /etc/my.cnf.d
 
-mysql_pid_file: /var/run/mariadb/mariadb.pid
-
 mysql_socket: true
 mysql_socket_path: /var/lib/mysql/mysql.sock
 
