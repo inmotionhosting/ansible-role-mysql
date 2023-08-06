@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/inmotionhosting/ansible-role-mysql.png?branch=master)](https://travis-ci.org/inmotionhosting/ansible-role-mysql) [![GPL-3.0 License](https://img.shields.io/github/license/inmotionhosting/ansible-role-mysql.svg?color=blue)](https://github.com/inmotionhosting/ansible-role-mysql/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/inmotionhosting/ansible-role-mysql.svg)](https://github.com/inmotionhosting/ansible-role-mysql/stargazers)
+![Ansible Molecule Pipeline](https://github.com/inmotionhosting/ansible-role-mysql/actions/workflows/main.yml/badge.svg) [![GPL-3.0 License](https://img.shields.io/github/license/inmotionhosting/ansible-role-mysql.svg?color=blue)](https://github.com/inmotionhosting/ansible-role-mysql/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/inmotionhosting/ansible-role-mysql.svg)](https://github.com/inmotionhosting/ansible-role-mysql/stargazers)
 
 # Ansible Role: MySQL
 Modular Ansible Role for deploying and configuring MySQL/MariaDB
@@ -9,12 +9,14 @@ server-focused Linux distributions and aims to follow their deprecation
 policies. Additionally we will focus on supporting the latest two stable
 releases of each, which at the time of writing are as follows:
 
-* CentOS 7, 8
-* Debian 10, 11
-* Ubuntu 18.04, 20.04
+* CentOS 7.x or later
+* Debian 10 or later
+* Ubuntu 18.04 LTS or later
+* AlmaLinux 8.x or later
+* RockyLinux 8.x or later
 
 ## Dependencies
-None.
+* community.mysql
 
 ## Role Variables
 Available variables are listed below with their default values (you can also see `defaults/main.yml`)

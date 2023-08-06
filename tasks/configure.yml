@@ -1,16 +1,16 @@
 ---
 - name: (RedHat) Ensure MySQL will use a unix socket
-  template:
+  ansible.builtin.template:
     src: etc/my.cnf.d/mysqld_socket.cnf.j2
     dest: "{{ mysql_config_include_dir }}/mysqld_socket.cnf"
     owner: root
     group: root
     mode: "0644"
-  notify: restart mysql
-  when: ansible_os_family|lower == "redhat"
+  notify: Restart mysql
+  when: ansible_os_family | lower == "redhat"
 
 - name: Create slow query log file (if configured)
-  file:
+  ansible.builtin.file:
     path: "{{ mysql_slow_query_log_file }}"
     state: touch
     owner: mysql
@@ -18,34 +18,34 @@
     mode: "0640"
     modification_time: preserve
     access_time: preserve
-  notify: restart mysql
+  notify: Restart mysql
   when:
     - mysql_slow_query_log_enabled is defined
-    - mysql_slow_query_log_enabled|bool
+    - mysql_slow_query_log_enabled | bool
 
 - name: Configre MySQL InnoDB Settings
-  template:
+  ansible.builtin.template:
     src: etc/my.cnf.d/innodb.cnf.j2
     dest: "{{ mysql_config_include_dir }}/innodb.cnf"
     owner: root
     group: root
     mode: "0644"
-  notify: restart mysql
+  notify: Restart mysql
 
 - name: Configre MySQL Logging Settings
-  template:
+  ansible.builtin.template:
     src: etc/my.cnf.d/logs.cnf.j2
     dest: "{{ mysql_config_include_dir }}/logs.cnf"
     owner: root
     group: root
     mode: "0644"
-  notify: restart mysql
+  notify: Restart mysql
 
 - name: Configure MySQL Query Cache
-  template:
+  ansible.builtin.template:
     src: etc/my.cnf.d/qcache.cnf.j2
     dest: "{{ mysql_config_include_dir }}/qcache.cnf"
     owner: root
     group: root
     mode: "0644"
-  notify: restart mysql
+  notify: Restart mysql
