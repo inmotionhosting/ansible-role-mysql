@@ -3,11 +3,11 @@
   ansible.builtin.include_vars: debian.yml
   when: ansible_os_family | lower == "debian"
 
-- name: (RedHat 8) Include os_family vars
+- name: (RedHat 8+) Include os_family vars
   ansible.builtin.include_vars: "redhat-8.yml"
   when:
     - ansible_os_family | lower == "redhat"
-    - ansible_distribution_major_version == "8"
+    - ansible_distribution_major_version >= "8"
 
 - name: (Debian 11+, Ubuntu 20.04+) Drop python 2.x packages
   ansible.builtin.set_fact:
