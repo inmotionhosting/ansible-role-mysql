@@ -1,6 +1,6 @@
 ---
 - name: (RedHat) Add official MariaDB repo
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: MariaDB
     description: MariaDB {{ mysql_version }} CentOS repository
     baseurl: >-
@@ -9,4 +9,4 @@
     gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
     gpgcheck: true
     state: present
-  when: ansible_os_family|lower == "redhat"
+    module_hotfixes: true

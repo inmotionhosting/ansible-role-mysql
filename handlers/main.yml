@@ -1,6 +1,6 @@
 ---
-- name: restart mysql
-  systemd:
+- name: Restart mysql
+  ansible.builtin.systemd:
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true
     name: "{{ mysql_daemon }}"
