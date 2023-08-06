@@ -24,7 +24,6 @@
       - mysql_root_username
       - mysql_config_file
       - mysql_config_include_dir
-      - mysql_pid_file
       - mysql_socket_path
       - mysql_log_dir
       - mysql_log_error
