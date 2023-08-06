@@ -1,9 +1,9 @@
 ---
 - name: Check if /root/.my.cnf exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ mysql_root_home }}/.my.cnf"
   changed_when: false
-  ansible.builtin.register: mysql_root_my_cnf
+  register: mysql_root_my_cnf
 
 - name: Generate MySQL password
   ansible.builtin.set_fact:
