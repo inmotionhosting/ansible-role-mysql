@@ -37,7 +37,6 @@ mysql_syslog_tag: mariadb
 mysql_packages:
   - mariadb-server
   - MySQL-python
-  - perl-DBD-MySQL
 
 #
 # Meta
