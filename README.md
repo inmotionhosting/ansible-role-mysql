@@ -15,8 +15,10 @@ policies. The releases below are the ones verified by CI:
 * Ubuntu 24.04 LTS (noble)
 
 EOL releases (CentOS 7, EL8, Debian 10/11, Ubuntu 20.04/22.04) are no longer
-tested. MariaDB publishes no 10.11 builds for EL7, and ansible-core no longer
-supports the Python 3.6 shipped by EL8 as a managed-node interpreter.
+tested. MariaDB's last EL7 build of 10.11 was 10.11.9, which is archive-only
+and has received no updates since CentOS 7 reached EOL. Separately,
+ansible-core no longer supports the Python versions shipped by EL7 and EL8 as
+managed-node interpreters.
 
 ## Dependencies
 * community.mysql
