@@ -16,10 +16,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ansible-lint is unpinned in requirements.txt, so this job installs whatever
+  # release is current. It is the tripwire for upstream changes that break the
+  # role: a developer's existing venv keeps its old version, CI does not.
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Ansible Lint
+        run: ansible-lint -v --force-color
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+
   molecule:
     name: Molecule Test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         distro:
           - combssm/docker-almalinux9-ansible:latest
@@ -45,7 +67,7 @@ jobs:
     name: Publish to Galaxy
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
-    needs: molecule
+    needs: [lint, molecule]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
