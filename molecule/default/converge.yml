@@ -10,4 +10,7 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role: ansible-role-mysql
+    # Reference the role by path, not by name: nothing puts the checkout
+    # directory on ANSIBLE_ROLES_PATH, so a bare clone (CI) cannot resolve
+    # "ansible-role-mysql" even though a clone inside ~/.ansible/roles can.
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
