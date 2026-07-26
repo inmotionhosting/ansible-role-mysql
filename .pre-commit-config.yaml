@@ -1,19 +1,19 @@
 repos:
-  - repo: https://github.com/ansible/ansible-lint.git
-    rev: v6.17.2
+  # Deliberately a local hook rather than the upstream ansible-lint repo hook.
+  # A pinned `rev` is a second source of truth that drifts from
+  # requirements.txt, and pre-commit never re-fetches a mutable rev, so there is
+  # no "latest" to point it at. Running the ansible-lint installed from
+  # requirements.txt (unpinned) means the role is linted by the current release
+  # and breaks loudly when upstream changes, instead of silently rotting on an
+  # old pin. Cost: the hook needs the project venv active.
+  - repo: local
     hooks:
       - id: ansible-lint
         name: Ansible-lint
         description: This hook runs ansible-lint.
         entry: python3 -m ansiblelint -v --force-color
-        language: python
+        language: system
         # do not pass files to ansible-lint, see:
         # https://github.com/ansible/ansible-lint/issues/611
         pass_filenames: false
         always_run: true
-        additional_dependencies:
-          # https://github.com/pre-commit/pre-commit/issues/1526
-          # If you want to use specific version of ansible-core or ansible, feel
-          # free to override `additional_dependencies` in your own hook config
-          # file.
-          - ansible-core>=2.13.11
