@@ -2,10 +2,14 @@
 - name: (RedHat) Add official MariaDB repo
   ansible.builtin.yum_repository:
     name: MariaDB
-    description: MariaDB {{ mysql_version }} CentOS repository
+    description: MariaDB {{ mysql_version }} RHEL repository
+    # dlm.mariadb.com is MariaDB's CDN-backed endpoint. The older
+    # yum.mariadb.org redirects to a rotating mirror pool where dead mirrors
+    # (403s) cause intermittent install failures.
     baseurl: >-
-      http://yum.mariadb.org/{{ mysql_version }}/rhel{{-
-      ansible_distribution_major_version -}}-amd64/
+      https://dlm.mariadb.com/repo/mariadb-server/{{ mysql_version -}}
+      /yum/rhel/{{ ansible_distribution_major_version -}}
+      /x86_64/
     gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
     gpgcheck: true
     state: present
