@@ -1,0 +1,41 @@
+---
+- name: Verify
+  hosts: all
+
+  # The role is not applied in this play, so its defaults are out of scope.
+  # Loading them keeps the expected version tied to the role instead of a
+  # literal that goes stale the next time mysql_version is bumped.
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Collect service facts
+      ansible.builtin.service_facts:
+
+    - name: Verify MariaDB service is running
+      ansible.builtin.assert:
+        that: >-
+          ansible_facts.services[mysql_daemon ~ '.service'].state == "running"
+        fail_msg: >-
+          Expected {{ mysql_daemon }}.service to be running, got
+          {{ ansible_facts.services[mysql_daemon ~ '.service'].state
+             | default('no such service') }}
+
+    - name: Query MariaDB server version
+      # Authenticates via the root credentials the role writes to
+      # {{ mysql_root_home }}/.my.cnf, same as tasks/security.yml.
+      ansible.builtin.command:
+        cmd: mysql -NBe "SELECT VERSION();"
+      register: mysql_server_version
+      changed_when: false
+
+    - name: Verify running server matches the configured version
+      ansible.builtin.assert:
+        that: mysql_server_version.stdout.startswith(mysql_version ~ '.')
+        fail_msg: >-
+          Expected MariaDB {{ mysql_version }},
+          got {{ mysql_server_version.stdout }}
+
+    - name: Show MariaDB version
+      ansible.builtin.debug:
+        var: mysql_server_version.stdout
